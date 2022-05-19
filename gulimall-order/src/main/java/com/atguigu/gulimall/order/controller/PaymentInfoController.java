@@ -34,7 +34,7 @@ public class PaymentInfoController {
      * 列表
      */
     @RequestMapping("/list")
-   // @RequiresPermissions("order:paymentinfo:list")
+   // //@RequirePermissions("order:paymentinfo:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = paymentInfoService.queryPage(params);
 
@@ -46,7 +46,7 @@ public class PaymentInfoController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-   // @RequiresPermissions("order:paymentinfo:info")
+   // //@RequirePermissions("order:paymentinfo:info")
     public R info(@PathVariable("id") Long id){
 		PaymentInfoEntity paymentInfo = paymentInfoService.getById(id);
 
@@ -57,7 +57,7 @@ public class PaymentInfoController {
      * 保存
      */
     @RequestMapping("/save")
-  //  @RequiresPermissions("order:paymentinfo:save")
+  //  //@RequirePermissions("order:paymentinfo:save")
     public R save(@RequestBody PaymentInfoEntity paymentInfo){
 		paymentInfoService.save(paymentInfo);
 
@@ -68,7 +68,7 @@ public class PaymentInfoController {
      * 修改
      */
     @RequestMapping("/update")
-  //  @RequiresPermissions("order:paymentinfo:update")
+  //  //@RequirePermissions("order:paymentinfo:update")
     public R update(@RequestBody PaymentInfoEntity paymentInfo){
 		paymentInfoService.updateById(paymentInfo);
 
@@ -79,7 +79,7 @@ public class PaymentInfoController {
      * 删除
      */
     @RequestMapping("/delete")
-   // @RequiresPermissions("order:paymentinfo:delete")
+   // //@RequirePermissions("order:paymentinfo:delete")
     public R delete(@RequestBody Long[] ids){
 		paymentInfoService.removeByIds(Arrays.asList(ids));
 

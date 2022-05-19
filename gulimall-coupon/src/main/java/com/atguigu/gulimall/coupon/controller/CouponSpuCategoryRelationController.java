@@ -34,7 +34,7 @@ public class CouponSpuCategoryRelationController {
      * 列表
      */
     @RequestMapping("/list")
-   // @RequiresPermissions("coupon:couponspucategoryrelation:list")
+   // //@RequirePermissions("coupon:couponspucategoryrelation:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = couponSpuCategoryRelationService.queryPage(params);
 
@@ -46,7 +46,7 @@ public class CouponSpuCategoryRelationController {
      * 信息
      */
     @RequestMapping("/info/{id}")
-   // @RequiresPermissions("coupon:couponspucategoryrelation:info")
+   // //@RequirePermissions("coupon:couponspucategoryrelation:info")
     public R info(@PathVariable("id") Long id){
 		CouponSpuCategoryRelationEntity couponSpuCategoryRelation = couponSpuCategoryRelationService.getById(id);
 
@@ -57,7 +57,7 @@ public class CouponSpuCategoryRelationController {
      * 保存
      */
     @RequestMapping("/save")
-  //  @RequiresPermissions("coupon:couponspucategoryrelation:save")
+  //  //@RequirePermissions("coupon:couponspucategoryrelation:save")
     public R save(@RequestBody CouponSpuCategoryRelationEntity couponSpuCategoryRelation){
 		couponSpuCategoryRelationService.save(couponSpuCategoryRelation);
 
@@ -68,7 +68,7 @@ public class CouponSpuCategoryRelationController {
      * 修改
      */
     @RequestMapping("/update")
-  //  @RequiresPermissions("coupon:couponspucategoryrelation:update")
+  //  //@RequirePermissions("coupon:couponspucategoryrelation:update")
     public R update(@RequestBody CouponSpuCategoryRelationEntity couponSpuCategoryRelation){
 		couponSpuCategoryRelationService.updateById(couponSpuCategoryRelation);
 
@@ -79,7 +79,7 @@ public class CouponSpuCategoryRelationController {
      * 删除
      */
     @RequestMapping("/delete")
-   // @RequiresPermissions("coupon:couponspucategoryrelation:delete")
+   // //@RequirePermissions("coupon:couponspucategoryrelation:delete")
     public R delete(@RequestBody Long[] ids){
 		couponSpuCategoryRelationService.removeByIds(Arrays.asList(ids));
 
