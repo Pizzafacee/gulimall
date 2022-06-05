@@ -1,5 +1,7 @@
 package com.atguigu.com.gulimall.product.service.impl;
 
+import com.atguigu.com.gulimall.product.service.CategoryBrandRelationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,7 +20,8 @@ import com.atguigu.com.gulimall.product.service.CategoryService;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
-
+    @Autowired
+    private CategoryBrandRelationService categoryBrandRelationService;
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CategoryEntity> page = this.page(
@@ -70,6 +73,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 //            this.getById(parentCid);
 //        }
         return longs;
+    }
+
+    @Override
+    public void saveCascade(CategoryEntity category) {
+        //先更新自己
+        this.updateById(category);
+        //在更新关联表
+        Long catId = category.getCatId();
+        String name = category.getName();
+        categoryBrandRelationService.updateRelation(catId,name);
     }
 
     private List<Long> findPath(Long catelogId, List<Long> pathList) {

@@ -34,7 +34,7 @@ public class CategoryController {
     /**
      * 列表
      */
-    @RequestMapping("/list/children")
+    @RequestMapping("/list/tree")
    // //@RequirePermissions("product:category:list")
     public R list(){
         List<CategoryEntity> list = categoryService.listWithTree();
@@ -52,6 +52,18 @@ public class CategoryController {
 
         return R.ok().put("category", category);
     }
+
+    /**
+     * 更新三级分类
+     */
+    @RequestMapping("/update")
+    //  //@RequirePermissions("product:category:save")
+    public R update(@RequestBody CategoryEntity category){
+        categoryService.saveCascade(category);
+
+        return R.ok();
+    }
+
 
     /**
      * 保存

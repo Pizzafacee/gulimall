@@ -59,4 +59,9 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         boolean brand_id = this.update(categoryBrandRelation, new UpdateWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId));
     }
 
+    @Override
+    public void updateRelation(Long catId, String name) {
+        this.baseMapper.updateRelation(catId,name);
+    }
+
 }
