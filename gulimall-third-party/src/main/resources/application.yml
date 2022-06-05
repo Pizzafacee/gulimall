@@ -3,8 +3,16 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    alicloud:
+      access-key: LTAI5tAQveUkHZiBWshQLvcB
+      secret-key: eTyHF62KstfYqiheJBVbkxtAoInoHE
+      oss:
+        endpoint: oss-cn-hangzhou.aliyuncs.com
+        bucket: gulimall-pizzawang
   application:
     name: gulimall-third-party
 
 server:
   port: 30000
+
+

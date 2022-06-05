@@ -1,9 +1,15 @@
 package com.atguigu.com.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.atguigu.common.valid.AddGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +21,7 @@ import com.atguigu.com.gulimall.product.service.BrandService;
 import com.atguigu.common.utils.PageUtils;
 import com.atguigu.common.utils.R;
 
+import javax.validation.Valid;
 
 
 /**
@@ -58,7 +65,17 @@ public class BrandController {
      */
     @RequestMapping("/save")
   //  //@RequirePermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
+    public R save(@RequestBody @Validated({AddGroup.class}) BrandEntity brand){
+//        if(result.hasErrors()){
+//            Map<String,String> map  = new HashMap<>();
+//            List<FieldError> fieldErrors = result.getFieldErrors();
+//            fieldErrors.forEach(fieldError -> {
+//                String field = fieldError.getField();
+//                String defaultMessage = fieldError.getDefaultMessage();
+//                map.put(field,defaultMessage);
+//            });
+//            return R.error(400,"提交的数据不合法").put("data",map);
+//        }
 		brandService.save(brand);
 
         return R.ok();
@@ -67,9 +84,20 @@ public class BrandController {
     /**
      * 修改
      */
+    @RequestMapping("/update")
+    //  //@RequirePermissions("product:brand:update")
+    public R update(@RequestBody BrandEntity brand){
+        brandService.updateDetail(brand);
+
+        return R.ok();
+    }
+
+    /**
+     * 修改状态
+     */
     @RequestMapping("/update/status")
   //  //@RequirePermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R updateStatus(@RequestBody BrandEntity brand){
 		brandService.updateById(brand);
 
         return R.ok();

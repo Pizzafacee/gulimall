@@ -1,7 +1,9 @@
 package com.atguigu.com.gulimall.product.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import java.util.Map;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -11,6 +13,7 @@ import com.atguigu.common.utils.Query;
 import com.atguigu.com.gulimall.product.dao.AttrGroupDao;
 import com.atguigu.com.gulimall.product.entity.AttrGroupEntity;
 import com.atguigu.com.gulimall.product.service.AttrGroupService;
+import org.springframework.util.StringUtils;
 
 
 @Service("attrGroupService")
@@ -25,5 +28,23 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
         return new PageUtils(page);
     }
+
+    @Override
+    public PageUtils queryPage(Map<String, Object> params, Long catalogId) {
+        IPage<AttrGroupEntity> page = null;
+        if (catalogId == 0) {
+            page = this.page(new Query<AttrGroupEntity>().getPage(params), new QueryWrapper<AttrGroupEntity>());
+        } else {
+            //select * from attrGroupEntity where catalog_id = catalogId and (.. or ..)
+            QueryWrapper<AttrGroupEntity> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("catelog_id", catalogId).and(!StringUtils.isEmpty(params.get("key")), (wrapper) -> {
+                wrapper.like("attr_group_id", params.get("key")).or().like("descript", params.get("key"));
+            });
+            page = this.page(new Query<AttrGroupEntity>().getPage(params), queryWrapper);
+        }
+
+        return new PageUtils(page);
+    }
+
 
 }

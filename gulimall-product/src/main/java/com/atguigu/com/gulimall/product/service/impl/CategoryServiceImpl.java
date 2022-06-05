@@ -2,8 +2,7 @@ package com.atguigu.com.gulimall.product.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -57,6 +56,32 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         int i = baseMapper.deleteBatchIds(asList);
     }
 
+    @Override
+    public Long[] findCatePath(Long catelogId) {
+        //找出当前分类及其父类的总路径
+        List<Long> pathList = new LinkedList<>();
+        List<Long> path = findPath(catelogId, pathList);
+        Collections.reverse(path);
+        Long[] longs = path.toArray(new Long[0]);
+
+
+//        Long parentCid = categoryEntity.getParentCid();
+//        if (parentCid != 0) {
+//            this.getById(parentCid);
+//        }
+        return longs;
+    }
+
+    private List<Long> findPath(Long catelogId, List<Long> pathList) {
+        pathList.add(catelogId);
+        CategoryEntity categoryEntity = this.getById(catelogId);
+        Long parentCid = categoryEntity.getParentCid();
+        if (parentCid != 0) {
+            findPath(parentCid, pathList);
+        }
+        return pathList;
+    }
+
     //递归查找所有菜单的子菜单
     private List<CategoryEntity> getChildrens(CategoryEntity root, List<CategoryEntity> categoryEntities) {
         List<CategoryEntity> collect = categoryEntities.stream().filter((CategoryEntity) -> {
@@ -66,7 +91,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 .peek(CategoryEntity -> CategoryEntity.setChildren(getChildrens(CategoryEntity, categoryEntities)))
                 //菜单的排序
                 .sorted((CategoryEntity1, CategoryEntity2) -> {
-                    return (CategoryEntity1.getSort()==null?0:CategoryEntity1.getSort())- (CategoryEntity2.getSort()==null?0:CategoryEntity2.getSort());
+                    return (CategoryEntity1.getSort() == null ? 0 : CategoryEntity1.getSort()) - (CategoryEntity2.getSort() == null ? 0 : CategoryEntity2.getSort());
                 })
                 .collect(Collectors.toList());
 
