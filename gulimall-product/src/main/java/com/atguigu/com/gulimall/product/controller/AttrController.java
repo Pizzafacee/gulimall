@@ -4,12 +4,10 @@ import java.util.Arrays;
 import java.util.Map;
 
 
+import com.atguigu.com.gulimall.product.vo.AttrRespVo;
+import com.atguigu.com.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atguigu.com.gulimall.product.entity.AttrEntity;
 import com.atguigu.com.gulimall.product.service.AttrService;
@@ -42,16 +40,27 @@ public class AttrController {
         return R.ok().put("page", page);
     }
 
-
+    /**
+     * 查询基本属性的功能 分页
+     * @param params
+     * @param catalogId
+     * @return
+     */
+//attr/base/list/0?t=1654929400416&page=1&limit=10&key=
+    @GetMapping("base/list/{catalogId}")
+    public R baseList(@RequestParam Map<String, Object> params,@PathVariable("catalogId") Long catalogId){
+        PageUtils page = attrService.queryAttrPage(params,catalogId);
+        return R.ok().put("page",page);
+    }
     /**
      * 信息
      */
     @RequestMapping("/info/{attrId}")
    // //@RequirePermissions("product:attr:info")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
-        return R.ok().put("attr", attr);
+		//AttrEntity attr = attrService.getById(attrId);
+        AttrRespVo attrRespVo = attrService.getAttrInfo(attrId);
+        return R.ok().put("attr",attrRespVo);
     }
 
     /**
@@ -59,8 +68,8 @@ public class AttrController {
      */
     @RequestMapping("/save")
   //  //@RequirePermissions("product:attr:save")
-    public R save(@RequestBody AttrEntity attr){
-		attrService.save(attr);
+    public R save(@RequestBody AttrVo attr){
+		attrService.saveAttr(attr);
 
         return R.ok();
     }
@@ -70,8 +79,9 @@ public class AttrController {
      */
     @RequestMapping("/update")
   //  //@RequirePermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attrVo){
+		//attrService.updateById(attrVo);
+        Integer counts = attrService.updateAttr(attrVo);
 
         return R.ok();
     }
@@ -87,4 +97,14 @@ public class AttrController {
         return R.ok();
     }
 
+    /**
+     * 销售属性
+     *
+     */
+    @GetMapping("/sale/list/{catelogId}")
+    public R saleList(@PathVariable("catelogId") Long catelogId,
+                      @RequestParam Map<String, Object> params){
+        PageUtils pageUtils = attrService.querySalePage(catelogId,params);
+        return R.ok().put("page",pageUtils);
+    }
 }

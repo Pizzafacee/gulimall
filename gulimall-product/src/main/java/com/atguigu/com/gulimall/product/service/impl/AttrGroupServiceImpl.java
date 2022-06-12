@@ -32,19 +32,23 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long catalogId) {
         IPage<AttrGroupEntity> page = null;
-        if (catalogId == 0) {
-            page = this.page(new Query<AttrGroupEntity>().getPage(params), new QueryWrapper<AttrGroupEntity>());
-        } else {
-            //select * from attrGroupEntity where catalog_id = catalogId and (.. or ..)
-            QueryWrapper<AttrGroupEntity> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("catelog_id", catalogId).and(!StringUtils.isEmpty(params.get("key")), (wrapper) -> {
-                wrapper.like("attr_group_id", params.get("key")).or().like("descript", params.get("key"));
-            });
-            page = this.page(new Query<AttrGroupEntity>().getPage(params), queryWrapper);
+        QueryWrapper<AttrGroupEntity> queryWrapper = new QueryWrapper<>();
+        if (!StringUtils.isEmpty(params.get("key"))) {
+            queryWrapper.and((wrapper) ->
+                wrapper.like("attr_group_id", params.get("key")).or().like("descript", params.get("key")));
+            }
+            if (catalogId == 0) {
+                page = this.page(new Query<AttrGroupEntity>().getPage(params), queryWrapper);
+            } else {
+                //select * from attrGroupEntity where catalog_id = catalogId and (.. or ..)
+
+                queryWrapper.eq("catelog_id", catalogId);
+
+                page = this.page(new Query<AttrGroupEntity>().getPage(params), queryWrapper);
+            }
+
+            return new PageUtils(page);
         }
 
-        return new PageUtils(page);
+
     }
-
-
-}

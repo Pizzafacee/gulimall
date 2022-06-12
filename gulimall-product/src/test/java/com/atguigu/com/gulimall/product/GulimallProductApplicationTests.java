@@ -65,4 +65,11 @@ public class GulimallProductApplicationTests {
         System.out.println("上传完成");
     }
 
+    @Test
+    public void stringTest(){
+        String s = "and";
+        String t = new String("and");
+        System.out.println(s.equals(t));
+    }
+
 }
