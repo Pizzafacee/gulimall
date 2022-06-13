@@ -10,6 +10,6 @@ import javax.ws.rs.DELETE;
 public class OSSConfig {
     @Deprecated
     public OSS OSSClient(){
-        return new OSSClient("oss-cn-hangzhou.aliyuncs.com","LTAI5tAQveUkHZiBWshQLvcB","eTyHF62KstfYqiheJBVbkxtAoInoHE");
+        return new OSSClient();
     }
 }
