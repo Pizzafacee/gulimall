@@ -23,9 +23,7 @@ public class GulimallThirdPartyApplicationTests {
 
     @Test
     public void testUpload() throws FileNotFoundException {
-//        String endPoint = "oss-cn-hangzhou.aliyuncs.com";
-//        String accessKeyId = "LTAI5tAQveUkHZiBWshQLvcB";
-//        String accessKeySecret = "eTyHF62KstfYqiheJBVbkxtAoInoHE";
+
 //
 //        OSS ossClient = new OSSClientBuilder().build(endPoint,accessKeyId,accessKeySecret);
         InputStream inputStream = new FileInputStream("F:\\谷粒商城\\Guli Mall(包含代码、课件、sql)\\Guli Mall\\分布式基础\\资源\\pics\\fe215589ed6500f4.jpg");
